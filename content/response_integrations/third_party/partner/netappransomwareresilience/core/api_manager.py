@@ -6,6 +6,7 @@ from TIPCommon.oauth import CredStorage
 
 from .auth_manager import RRSOAuthAdapter, RRSOAuthManager
 from .constants import (
+    ENDPOINT_BLOCK_USER,
     ENDPOINT_ENRICH_IP,
     ENDPOINT_ENRICH_STORAGE,
     ENDPOINT_JOB_STATUS,
@@ -13,7 +14,12 @@ from .constants import (
     ENDPOINT_VOLUME_OFFLINE,
     RRS_SERVICE_URL,
 )
-from .utils import build_rrs_url, extract_domain_from_uri, generate_encryption_key
+from .utils import (
+    build_rrs_url,
+    extract_domain_from_uri,
+    generate_encryption_key,
+    mask_sensitive_value,
+)
 
 
 class ApiManager:
@@ -325,6 +331,60 @@ class ApiManager:
         response_data = response.json()
         self.siemplify.LOGGER.info(
             f"ApiManager.volume_offline: API call successful. Status: {response.status_code}"
+        )
+
+        return response_data
+
+    def block_user(self, user_id: str, user_ips: str, duration: str) -> dict:
+        """
+        Block a user.
+
+        Blocks a user with the specified parameters.
+
+        Args:
+            user_id: ID of the user to block (optional).
+            user_ips: Client IPs to block as comma-separated string
+                (required for NFS; optional for CIFS).
+            duration: Block duration - permanent or hours (1, 2, 4, 8, 12, 24).
+
+        Returns:
+            dict: Response data from the block user API.
+
+        Raises:
+            requests.HTTPError: If the API call returns a non-2xx status code.
+
+        """
+        # Mask sensitive values for logging
+        masked_user_id = mask_sensitive_value(user_id) if user_id else "N/A"
+
+        # Convert comma-separated IPs to list
+        user_ips_list = [ip.strip() for ip in user_ips.split(",") if ip.strip()] if user_ips else []
+        ip_count = len(user_ips_list)
+
+        self.siemplify.LOGGER.info(
+            f"ApiManager.block_user: Blocking user with user_id: {masked_user_id}, "
+            f"user_ips: {user_ips}, "
+            f"duration: {duration}"
+        )
+
+        # Build full URL
+        url = build_rrs_url(self.ENDPOINT_URL, self.ACCOUNT_ID, ENDPOINT_BLOCK_USER)
+
+        # Build request payload
+        request_payload = {"user_id": user_id, "user_ips": user_ips_list, "duration": duration}
+
+        self.siemplify.LOGGER.info(f"ApiManager.block_user: POST URL={url}")
+
+        # Make API call using session (already has Authorization header from __init__)
+        response = self.session.post(url, json=request_payload, verify=self.SSL_VERIFY)
+
+        # Check if request was successful
+        response.raise_for_status()
+
+        # Parse response
+        response_data = response.json()
+        self.siemplify.LOGGER.info(
+            f"ApiManager.block_user: API call successful. Status: {response.status_code}"
         )
 
         return response_data
