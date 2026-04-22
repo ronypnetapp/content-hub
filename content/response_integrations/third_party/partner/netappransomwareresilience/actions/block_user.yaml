@@ -19,12 +19,12 @@ parameters:
     is_mandatory: false
     optional_values:
     - permanent
-    - 1
-    - 2
-    - 4
-    - 8
-    - 12
-    - 24
+    - '1'
+    - '2'
+    - '4'
+    - '8'
+    - '12'
+    - '24'
 dynamic_results_metadata:
 -   result_example_path: resources/block_user_json_example.json
     result_name: JsonResult

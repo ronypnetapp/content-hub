@@ -359,7 +359,6 @@ class ApiManager:
 
         # Convert comma-separated IPs to list
         user_ips_list = [ip.strip() for ip in user_ips.split(",") if ip.strip()] if user_ips else []
-        ip_count = len(user_ips_list)
 
         self.siemplify.LOGGER.info(
             f"ApiManager.block_user: Blocking user with user_id: {masked_user_id}, "
