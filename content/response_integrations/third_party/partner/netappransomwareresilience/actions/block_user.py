@@ -25,8 +25,8 @@ def main() -> None:
     try:
         rrsManager = ApiManager(siemplify)
         # Extract parameters from action
-        user_id = siemplify.extract_action_param("User ID", print_value=True)
-        user_ips = siemplify.extract_action_param("User IPs", print_value=True)
+        user_id = siemplify.extract_action_param("User ID", print_value=False)
+        user_ips = siemplify.extract_action_param("User IPs", print_value=False)
         duration = siemplify.extract_action_param("Duration", print_value=True)
         siemplify.LOGGER.info("----------------- RRS - Block User: Started -----------------")
 

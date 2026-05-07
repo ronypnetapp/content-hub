@@ -362,7 +362,7 @@ class ApiManager:
 
         self.siemplify.LOGGER.info(
             f"ApiManager.block_user: Blocking user with user_id: {masked_user_id}, "
-            f"user_ips: {user_ips}, "
+            f"user_ips: {mask_sensitive_value(user_ips)}, "
             f"duration: {duration}"
         )
 
