@@ -1,12 +1,12 @@
 name: Block User
-description: Block a user
+description: Block user from accessing resources protected by Ransomware Resilience
 integration_identifier: netapp-ransomware-resilience
 parameters:
 -   name: User ID
     default_value: ''
     type: string
     description: ID of user
-    is_mandatory: false
+    is_mandatory: true
 -   name: User IPs
     default_value: ''
     type: string
