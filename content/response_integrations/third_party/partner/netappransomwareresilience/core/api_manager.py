@@ -39,9 +39,7 @@ class ApiManager:
 
         # Get credentials from Integration config
         self.CLIENT_ID = self.siemplify.extract_configuration_param("Integration", "Client ID")
-        self.CLIENT_SECRET = self.siemplify.extract_configuration_param(
-            "Integration", "Client Secret"
-        )
+        self.CLIENT_SECRET = self.siemplify.extract_configuration_param("Integration", "Client Secret")
         self.ACCOUNT_ID = self.siemplify.extract_configuration_param("Integration", "Account ID")
         self.SSL_VERIFY = self.siemplify.extract_configuration_param(
             "Integration", "Verify SSL", input_type=bool, default_value=True
@@ -50,9 +48,7 @@ class ApiManager:
         self.ENDPOINT_URL = RRS_SERVICE_URL
         self.DOMAIN = extract_domain_from_uri(self.ENDPOINT_URL)
 
-        self.siemplify.LOGGER.info(
-            f"ApiManager: SAAS Domain={self.DOMAIN}, Verify SSL={self.SSL_VERIFY}"
-        )
+        self.siemplify.LOGGER.info(f"ApiManager: SAAS Domain={self.DOMAIN}, Verify SSL={self.SSL_VERIFY}")
 
         self.token = ""
 
@@ -64,9 +60,7 @@ class ApiManager:
         )
 
         self.cred_storage = CredStorage(
-            encryption_password=generate_encryption_key(
-                self.CLIENT_ID, self.DOMAIN, self.CLIENT_SECRET
-            ),
+            encryption_password=generate_encryption_key(self.CLIENT_ID, self.DOMAIN, self.CLIENT_SECRET),
             chronicle_soar=self.siemplify,
         )
 
@@ -115,9 +109,7 @@ class ApiManager:
         self.token = token.access_token
         self.session.headers.update({"Authorization": f"Bearer {self.token}"})
 
-        self.siemplify.LOGGER.info(
-            "ApiManager.generate_token - Token generated and saved successfully"
-        )
+        self.siemplify.LOGGER.info("ApiManager.generate_token - Token generated and saved successfully")
 
         return self.token
 
@@ -154,9 +146,7 @@ class ApiManager:
 
         # Parse response
         response_data = response.json()
-        self.siemplify.LOGGER.info(
-            f"ApiManager.enrich_ip: API call successful. Status: {response.status_code}"
-        )
+        self.siemplify.LOGGER.info(f"ApiManager.enrich_ip: API call successful. Status: {response.status_code}")
 
         return response_data
 
@@ -177,9 +167,7 @@ class ApiManager:
             requests.HTTPError: If the API call returns a non-2xx status code.
         """
 
-        self.siemplify.LOGGER.info(
-            "ApiManager.enrich_storage: Enriching storage for given agent_id and system_id"
-        )
+        self.siemplify.LOGGER.info("ApiManager.enrich_storage: Enriching storage for given agent_id and system_id")
 
         # Build full URL
         url = build_rrs_url(self.ENDPOINT_URL, self.ACCOUNT_ID, ENDPOINT_ENRICH_STORAGE)
@@ -197,9 +185,7 @@ class ApiManager:
 
         # Parse response
         response_data = response.json()
-        self.siemplify.LOGGER.info(
-            f"ApiManager.enrich_storage: API call successful. Status: {response.status_code}"
-        )
+        self.siemplify.LOGGER.info(f"ApiManager.enrich_storage: API call successful. Status: {response.status_code}")
 
         return response_data
 
@@ -221,9 +207,7 @@ class ApiManager:
             requests.HTTPError: If the API call returns a non-2xx status code.
         """
 
-        self.siemplify.LOGGER.info(
-            f"ApiManager.check_job_status: Checking job status for job_id: {job_id}"
-        )
+        self.siemplify.LOGGER.info(f"ApiManager.check_job_status: Checking job status for job_id: {job_id}")
 
         # Build full URL
         url = build_rrs_url(self.ENDPOINT_URL, self.ACCOUNT_ID, ENDPOINT_JOB_STATUS)
@@ -241,9 +225,7 @@ class ApiManager:
 
         # Parse response
         response_data = response.json()
-        self.siemplify.LOGGER.info(
-            f"ApiManager.check_job_status: API call successful. Status: {response.status_code}"
-        )
+        self.siemplify.LOGGER.info(f"ApiManager.check_job_status: API call successful. Status: {response.status_code}")
 
         return response_data
 
@@ -265,9 +247,7 @@ class ApiManager:
             requests.HTTPError: If the API call returns a non-2xx status code.
 
         """
-        self.siemplify.LOGGER.info(
-            f"ApiManager.take_snapshot: Taking snapshot for volume_id: {volume_id}"
-        )
+        self.siemplify.LOGGER.info(f"ApiManager.take_snapshot: Taking snapshot for volume_id: {volume_id}")
 
         # Build full URL
         url = build_rrs_url(self.ENDPOINT_URL, self.ACCOUNT_ID, ENDPOINT_TAKE_SNAPSHOT)
@@ -285,9 +265,7 @@ class ApiManager:
 
         # Parse response
         response_data = response.json()
-        self.siemplify.LOGGER.info(
-            f"ApiManager.take_snapshot: API call successful. Status: {response.status_code}"
-        )
+        self.siemplify.LOGGER.info(f"ApiManager.take_snapshot: API call successful. Status: {response.status_code}")
 
         return response_data
 
@@ -309,9 +287,7 @@ class ApiManager:
             requests.HTTPError: If the API call returns a non-2xx status code.
 
         """
-        self.siemplify.LOGGER.info(
-            f"ApiManager.volume_offline: Taking volume offline for volume_id: {volume_id}"
-        )
+        self.siemplify.LOGGER.info(f"ApiManager.volume_offline: Taking volume offline for volume_id: {volume_id}")
 
         # Build full URL
         url = build_rrs_url(self.ENDPOINT_URL, self.ACCOUNT_ID, ENDPOINT_VOLUME_OFFLINE)
@@ -329,9 +305,7 @@ class ApiManager:
 
         # Parse response
         response_data = response.json()
-        self.siemplify.LOGGER.info(
-            f"ApiManager.volume_offline: API call successful. Status: {response.status_code}"
-        )
+        self.siemplify.LOGGER.info(f"ApiManager.volume_offline: API call successful. Status: {response.status_code}")
 
         return response_data
 
@@ -382,8 +356,6 @@ class ApiManager:
 
         # Parse response
         response_data = response.json()
-        self.siemplify.LOGGER.info(
-            f"ApiManager.block_user: API call successful. Status: {response.status_code}"
-        )
+        self.siemplify.LOGGER.info(f"ApiManager.block_user: API call successful. Status: {response.status_code}")
 
         return response_data

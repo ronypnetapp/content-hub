@@ -57,8 +57,7 @@ def main() -> None:
 
     siemplify.LOGGER.info("----------------- RRS - Block User: End -----------------")
     siemplify.LOGGER.info(
-        f"Block User: \n  status: {status}\n  result_value: {result_value}"
-        f"\n  output_message: {output_message}"
+        f"Block User: \n  status: {status}\n  result_value: {result_value}\n  output_message: {output_message}"
     )
 
     # Add result to action output.

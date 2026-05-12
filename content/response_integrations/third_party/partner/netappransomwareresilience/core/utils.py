@@ -30,9 +30,7 @@ def compute_expiry(response: Dict[str, Any]) -> int:
             return now_ms + (expires_in_sec * 1000)
 
         except (TypeError, ValueError) as e:
-            raise RrsException(
-                f"Malformed '{EXPIRES_IN_KEY}' value in OAuth response: {expires_in!r}"
-            ) from e
+            raise RrsException(f"Malformed '{EXPIRES_IN_KEY}' value in OAuth response: {expires_in!r}") from e
     return now_ms + (DEFAULT_EXPIRY_SECONDS * 1000)
 
 

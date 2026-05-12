@@ -49,8 +49,7 @@ def main() -> None:
     siemplify.LOGGER.info("----------------- RRS - Test connection: End -----------------")
 
     siemplify.LOGGER.info(
-        f"Ping: \n  status: {status}\n  result_value: {result_value}"
-        f"\n  output_message: {output_message}"
+        f"Ping: \n  status: {status}\n  result_value: {result_value}\n  output_message: {output_message}"
     )
     siemplify.end(output_message, result_value, status)
 

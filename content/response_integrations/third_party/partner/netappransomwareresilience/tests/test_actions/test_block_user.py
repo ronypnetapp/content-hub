@@ -30,11 +30,7 @@ class TestBlockUser:
         block_user.main()
 
         assert len(script_session.request_history) >= 1
-        block_requests = [
-            req
-            for req in script_session.request_history
-            if "users/block-user" in req.request.url.path
-        ]
+        block_requests = [req for req in script_session.request_history if "users/block-user" in req.request.url.path]
         assert len(block_requests) >= 1
 
         assert action_output.results.output_message == success_output_msg
